@@ -13,7 +13,7 @@ jobs:
         env:
           REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cml_run python train.py
+          /usr/local/bin/cml_run python train.py
           echo "MODEL METRICS"
           cat metrics.txt
 
