@@ -5,20 +5,15 @@ jobs:
     runs-on: [ubuntu-latest]
     container: docker://dvcorg/cml-py3:latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      
+      - uses: actions/checkout@v3
       - name: Install CML and dependencies
         run: |
           pip install -r requirements.txt
-          pip install --upgrade pip
-          pip install cml==0.1.1
       - name: Run ML workflow
         env:
           REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "## MODEL METRICS" > report.md
-          cat metrics.txt >> report.md
-          cml-publish feature_importance.png --md >> report.md
-          cml-publish residuals.png --md >> report.md
-          cml-send-comment report.md
+          cml_run python train.py
+          echo "MODEL METRICS"
+          cat metrics.txt
+
