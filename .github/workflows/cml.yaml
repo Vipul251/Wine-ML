@@ -11,16 +11,14 @@ jobs:
       - name: Install CML and dependencies
         run: |
           pip install -r requirements.txt
-          pip install cml
-
+          pip install --upgrade pip
+          pip install cml==0.1.1
       - name: Run ML workflow
         env:
           REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "## MODEL METRICS" > report.md
           cat metrics.txt >> report.md
-
           cml-publish feature_importance.png --md >> report.md
           cml-publish residuals.png --md >> report.md
-
           cml-send-comment report.md
