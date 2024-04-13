@@ -5,10 +5,14 @@ jobs:
     runs-on: [ubuntu-latest]
     container: docker://dvcorg/cml-py3:latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
       - name: Install CML and dependencies
         run: |
           pip install -r requirements.txt
+          pip install cml
+
       - name: Run ML workflow
         env:
           REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -20,4 +24,3 @@ jobs:
           cml-publish residuals.png --md >> report.md
 
           cml-send-comment report.md
-
