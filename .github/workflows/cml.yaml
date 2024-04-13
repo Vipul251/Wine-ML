@@ -6,13 +6,14 @@ jobs:
     container: docker://dvcorg/cml-py3:latest
     steps:
       - uses: actions/checkout@v3
-      - name: Install CML
-        run: pip install cml
-      - name: cml_run
+      - name: Install CML and dependencies
+        run: |
+          pip install CML
+          pip install -r requirements.txt
+      - name: Run ML workflow
         env:
           REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cml_run pip install -r requirements.txt
           cml_run python train.py
           echo "MODEL METRICS"
           cat metrics.txt
